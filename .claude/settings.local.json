@@ -43,7 +43,8 @@
       "Bash(git branch -M main)",
       "Bash(git push -u origin main)",
       "Bash(git commit -m \"Fix Vite + React deployment: Correct CSS imports, React 18 createRoot setup, and proper DOM mounting for Vercel deployment\")",
-      "Bash(git push origin main)"
+      "Bash(git push origin main)",
+      "Bash(git commit -m \"Fix runtime crash: Handle Google AI SDK initialization in browser without API key, add null checks for safe fallback\")"
     ]
   }
 }
