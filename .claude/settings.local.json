@@ -41,7 +41,9 @@
       "Bash(git add .)",
       "Bash(git commit -m \"Initial commit: Complete healthcare premium website with parallax effects, admin auth, and video background\")",
       "Bash(git branch -M main)",
-      "Bash(git push -u origin main)"
+      "Bash(git push -u origin main)",
+      "Bash(git commit -m \"Fix Vite + React deployment: Correct CSS imports, React 18 createRoot setup, and proper DOM mounting for Vercel deployment\")",
+      "Bash(git push origin main)"
     ]
   }
 }

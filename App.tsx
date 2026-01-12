@@ -774,7 +774,11 @@ const AdminDashboard: React.FC = () => {
   const handleAiGen = async (id: string, title: string) => {
     setAiGeneratingId(id);
     const newDesc = await generateMarketingContent(title, 'service_desc');
-    updateServiceDescription(id, newDesc);
+    if (newDesc && !newDesc.includes("fallback")) {
+      updateServiceDescription(id, newDesc);
+    } else {
+      console.warn("Using fallback content - AI service not available");
+    }
     setAiGeneratingId(null);
   };
 

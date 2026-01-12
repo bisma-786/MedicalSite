@@ -25,7 +25,14 @@ export const Chatbot: React.FC<ChatbotProps> = ({ onLeadCapture }) => {
 
   useEffect(() => {
     if (isOpen && !chatSessionRef.current) {
-      chatSessionRef.current = createChatSession();
+      const session = createChatSession();
+      if (session) {
+        chatSessionRef.current = session;
+      } else {
+        console.warn("Chat session could not be initialized - AI service unavailable");
+        // Fallback: add a message informing the user
+        setMessages(prev => [...prev, { id: 'error', sender: 'bot', text: "AI service is temporarily unavailable. Please try again later or contact us directly." }]);
+      }
     }
     scrollToBottom();
   }, [isOpen, messages]);
@@ -35,7 +42,15 @@ export const Chatbot: React.FC<ChatbotProps> = ({ onLeadCapture }) => {
   };
 
   const handleSend = async () => {
-    if (!input.trim() || !chatSessionRef.current) return;
+    if (!input.trim()) return;
+
+    if (!chatSessionRef.current) {
+      const userMsg: Message = { id: Date.now().toString(), sender: 'user', text: input };
+      setMessages(prev => [...prev, userMsg]);
+      setInput('');
+      setMessages(prev => [...prev, { id: Date.now().toString(), sender: 'bot', text: "AI service is temporarily unavailable. Please try again later or contact us directly." }]);
+      return;
+    }
 
     const userMsg: Message = { id: Date.now().toString(), sender: 'user', text: input };
     setMessages(prev => [...prev, userMsg]);
@@ -44,10 +59,10 @@ export const Chatbot: React.FC<ChatbotProps> = ({ onLeadCapture }) => {
 
     try {
       const response = await chatSessionRef.current.sendMessageStream({ message: input });
-      
+
       let botResponseText = '';
       const botMsgId = (Date.now() + 1).toString();
-      
+
       // Add empty bot message placeholder
       setMessages(prev => [...prev, { id: botMsgId, sender: 'bot', text: '' }]);
 
@@ -55,7 +70,7 @@ export const Chatbot: React.FC<ChatbotProps> = ({ onLeadCapture }) => {
          const c = chunk as GenerateContentResponse;
          if (c.text) {
              botResponseText += c.text;
-             setMessages(prev => 
+             setMessages(prev =>
                prev.map(msg => msg.id === botMsgId ? { ...msg, text: botResponseText } : msg)
              );
          }
