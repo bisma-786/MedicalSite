@@ -38,7 +38,10 @@
       "Bash(dir \"C:\\\\Users\\\\Bisma Gondal\\\\Desktop\\\\my projects\\\\healthcare-premium\\\\public\\\\assets\\\\images\" /b)",
       "Bash(git init)",
       "Bash(git remote add origin https://github.com/bisma-786/MedicalSite.git)",
-      "Bash(git add .)"
+      "Bash(git add .)",
+      "Bash(git commit -m \"Initial commit: Complete healthcare premium website with parallax effects, admin auth, and video background\")",
+      "Bash(git branch -M main)",
+      "Bash(git push -u origin main)"
     ]
   }
 }
